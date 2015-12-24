@@ -25,35 +25,17 @@ class GoodBunyan
 
 Hoek.inherits GoodBunyan, GoodReporter
 
-GoodBunyan::_logResponse = (event, tags=[]) ->
-  @bunyan[@response_level] event: event, tags: tags
-  # @bunyan[@response_level] "[#{tags}], " + Hoek.format '%s: %s %s %s %s (%sms) %s',
-  #   event.instance,
-  #   event.method,
-  #   event.path,
-  #   query,
-  #   event.statusCode,
-  #   event.responseTime,
-  #   responsePayload
-
 GoodBunyan::_report = (event, data) ->
-  @bunyan[@error_level] event: event, data: data
-  # if event == 'response'
-  #   @_logResponse data, data.tags
-  # else if event == 'ops'
-  #   @bunyan[@ops_level] Hoek.format 'memory: %sMb, uptime (seconds): %s, load: %s',
-  #     Math.round(data.proc.mem.rss / (1024 * 1024)),
-  #     data.proc.uptime,
-  #     data.os.load
-  # else if event == 'error'
-  #   @bunyan[@error_level] event: event, data: data
-  # else if event == 'request' or event == 'log'
-  #   @bunyan[@request_level] 'data: ' + if typeof data.data == 'object' then SafeStringify(data.data) else data.data
-  # # Event that is unknown to good-console, try a default.
-  # else if data.data
-  #   @bunyan[@other_level] 'data: ' + if typeof data.data == 'object' then SafeStringify(data.data) else data.data
-  # else
-  #   @bunyan[@other_level] 'data: (none)'
+  if event is 'response'
+    @bunyan[@response_level] event: event, data: data
+  else if event is 'ops'
+    @bunyan[@ops_level] event: event, data: data
+  else if event is 'error'
+    @bunyan[@error_level] event: event, data: data
+  else if event is 'request' or event is 'log'
+    @bunyan[@request_level] event: event, data: data
+  else
+    @bunyan[@other_level] event: event, data: data
 
 GoodBunyan::stop = () ->
   return
