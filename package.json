@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "good-reporter": "3.x.x",
-    "hoek": "2.x.x, 3.x.x",
+    "hoek": "2.x.x",
     "json-stringify-safe": "5.x.x"
   },
   "coffeelintConfig": {
