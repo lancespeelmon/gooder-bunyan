@@ -6,7 +6,7 @@ A [hapi][0] [good-reporter][1] to [bunyan][2] logging adapter.
 
 ``` bash
   $ npm install bunyan
-  $ npm install good-bunyan
+  $ npm install gooder-bunyan
 ```
 
 ## Usage
