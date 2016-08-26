@@ -25,15 +25,15 @@ class GoodBunyan extends Stream.Writable
     event = data?.event
 
     if event is 'response'
-      @bunyan[@response_level] event: event, data: data
+      @bunyan[@response_level].call @bunyan, event: event, data: data
     else if event is 'ops'
-      @bunyan[@ops_level] event: event, data: data
+      @bunyan[@ops_level].call @bunyan, event: event, data: data
     else if event is 'error'
-      @bunyan[@error_level] event: event, data: data
+      @bunyan[@error_level].call @bunyan, event: event, data: data
     else if event is 'request' or event is 'log'
-      @bunyan[@request_level] event: event, data: data
+      @bunyan[@request_level].call @bunyan, event: event, data: data
     else
-      @bunyan[@other_level] event: event, data: data
+      @bunyan[@other_level].call @bunyan, event: event, data: data
 
     setImmediate callback
 
