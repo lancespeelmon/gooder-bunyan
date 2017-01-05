@@ -16,27 +16,37 @@ then either add it to an existing bunyan logger or pass an instance to a new
 bunyan logger:
 
 ``` js
-var GoodBunyan = require('gooder-bunyan');
 var bunyan = require('bunyan');
+var hapi = require('hapi');
+
+var server = new hapi.Server();
+server.connection({ port: 8000 });
+
+var logger = bunyan.createLogger({ name: 'test', level: 'debug' });
 
 server.register({
   register: require('good'),
   options: {
-    reporters: [
-      new GoodBunyan({
-        ops: '*',
-        request: '*',
-        response: '*',
-        log: '*',
-        error: '*'
-      }, bunyan)
-    ]
+    reporters: {
+      bunyanReporter: [{
+        module: 'gooder-bunyan',
+        args: [logger, {
+          ops: '*',
+          request: '*',
+          response: '*',
+          log: '*',
+          error: '*',
+        }]
+      }]
+    }
   }
 }, function(err) {
   if (err) {
     return server.log(['error'], 'good load error: ' + err);
   }
 });
+
+server.start();
 ```
 
 The following `options` are availble to configure `GoodBunyan`:
